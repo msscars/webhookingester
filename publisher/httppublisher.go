@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -23,6 +24,8 @@ func (p HttpPublisher) Publish(request *http.Request) bool {
 		log.Printf("Error reading body: %v", err)
 		return false
 	}
+
+	request.Body = io.NopCloser(bytes.NewBuffer(body))
 
 	if p.BodySelector != "" {
 		json.Unmarshal(body, &v)
