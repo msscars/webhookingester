@@ -24,12 +24,21 @@ func main() {
 	godotenv.Load(".env")
 
 	expectedApiKey, expectedApiKeyFound := os.LookupEnv("WEBHOOKINGESTER_APIKEY")
+	natsUrl, natsUrlFound := os.LookupEnv("WEBHOOKINGESTER_NATSURL")
 
 	if !expectedApiKeyFound {
 		log.Println("Deliver endpoint running without authentication!")
 	}
 
-	nc, _ := nats.Connect(nats.DefaultURL)
+	if !natsUrlFound {
+		log.Println("No NATS url configured using default one")
+		natsUrl = nats.DefaultURL
+	}
+
+	nc, err := nats.Connect(natsUrl)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	r := gin.Default()
 

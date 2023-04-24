@@ -1,0 +1,9 @@
+apikey: "SuperSecureKey"
+api:
+  image: moscars-webhookingester-api:0.0.2
+  replicas: 2
+publisher:
+  image: moscars-webhookingester-publisher:0.0.2
+  replicas: 2
+nats:
+  url: moscars-webhookingester-nats.default.svc.cluster.local:4222

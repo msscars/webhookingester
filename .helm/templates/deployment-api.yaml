@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moscars-webhookingester-api
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.api.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: moscars-webhookingester-api
+  template:
+    metadata:
+      labels:
+        app: moscars-webhookingester-api
+    spec:
+      containers:
+        - name: moscars-webhookingester-api
+          image: {{ .Values.api.image }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: WEBHOOKINGESTER_APIKEY
+              value: {{ .Values.apikey }}
+            - name: WEBHOOKINGESTER_NATSURL
+              value: {{ .Values.nats.url }}
+            
+          resources:
+            requests:
+              memory: '50Mi'
+              cpu: '200m'
+            limits:
+              memory: '200Mi'
+              cpu: '400m'
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+

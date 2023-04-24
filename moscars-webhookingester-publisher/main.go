@@ -5,18 +5,26 @@ import (
 	"bytes"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/nats-io/nats.go"
 )
 
 func main() {
+	natsUrl, natsUrlFound := os.LookupEnv("WEBHOOKINGESTER_NATSURL")
+
+	if !natsUrlFound {
+		log.Println("No NATS url configured using default one")
+		natsUrl = nats.DefaultURL
+	}
+
 	var config Config
 	config.GetConf()
 
 	routings := CreateRoutings(config)
 
-	nc, err := nats.Connect(nats.DefaultURL)
+	nc, err := nats.Connect(natsUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
