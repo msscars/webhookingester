@@ -1,4 +1,4 @@
-module moscars-webhookingester
+module moscars-webhookingester-api
 
 go 1.18
 
