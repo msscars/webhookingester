@@ -14,20 +14,7 @@ func main() {
 	var config Config
 	config.GetConf()
 
-	routings := []Routing{}
-
-	for i, h := range config.Routings {
-
-		matcher := MatcherFactory(h.Matcher)
-		publisher := PublisherFactory(h.Publisher)
-
-		if matcher != nil {
-			log.Println("Added", h.Matcher.Type, "from config at position", i)
-			routings = append(routings, Routing{Matcher: matcher, Publisher: publisher})
-		} else {
-			log.Println("Could not create matcher from config at position", i)
-		}
-	}
+	routings := CreateRoutings(config)
 
 	expectedApiKey, expectedApiKeyFound := os.LookupEnv("WEBHOOKINGESTER_APIKEY")
 
