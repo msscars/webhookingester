@@ -2,8 +2,8 @@ package main
 
 import (
 	"log"
-	"moscars-webhookingester-api/matchers"
-	"moscars-webhookingester-api/publisher"
+	"moscars-webhookingester-publisher/matchers"
+	"moscars-webhookingester-publisher/publisher"
 )
 
 func CreateRoutings(config Config) []Routing {

@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"moscars-webhookingester-api/matchers"
-	"moscars-webhookingester-api/publisher"
+	"moscars-webhookingester-publisher/matchers"
+	"moscars-webhookingester-publisher/publisher"
 	"net/http"
 	"net/http/httputil"
 )
