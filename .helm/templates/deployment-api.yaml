@@ -28,7 +28,7 @@ spec:
               protocol: TCP
           env:
             - name: WEBHOOKINGESTER_APIKEY
-              value: {{ .Values.apikey }}
+              value: {{ .Values.api.apikey }}
             - name: WEBHOOKINGESTER_NATSURL
               value: {{ .Values.nats.url }}
             
