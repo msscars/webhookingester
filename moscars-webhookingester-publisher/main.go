@@ -34,7 +34,7 @@ func main() {
 		r := bufio.NewReader(b)
 		r.Read(m.Data)
 		if originalRequest, err = http.ReadRequest(r); err != nil { // deserialize request
-			log.Fatal(err)
+			log.Println(err)
 		}
 
 		Route(routings, originalRequest)
