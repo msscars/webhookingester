@@ -9,14 +9,14 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "moscars-webhookingester-api/."
+            "program": "src/api/."
         },
         {
             "name": "Launch Publisher",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "moscars-webhookingester-publisher/."
+            "program": "src/publisher/."
         }
     ]
 }

@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux go build -o /moscars-webhookingester-publisher
+RUN CGO_ENABLED=0 GOOS=linux go build -o /publisher
 
 # Run
-CMD ["/moscars-webhookingester-publisher"]
+CMD ["/publisher"]

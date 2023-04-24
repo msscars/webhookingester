@@ -1,4 +1,4 @@
 go 1.18
 
-use ./moscars-webhookingester-api
-use ./moscars-webhookingester-publisher
+use ./src/api
+use ./src/publisher
