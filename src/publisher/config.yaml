@@ -4,7 +4,7 @@ routings:
       token: "testtoken"
     publisher:
       type: "http"
-      uri: "https://moscars-webhookingester-test.free.beeceptor.com"
+      uri: "https://moscars-webhookingester-test2.free.beeceptor.com"
       bodySelector: "$.prop2"
 
   - matcher:
@@ -12,5 +12,5 @@ routings:
       key: "X-Test"
     publisher:
       type: "http"
-      uri: "https://moscars-webhookingester-test.free.beeceptor.com"
+      uri: "https://moscars-webhookingester-test2.free.beeceptor.com"
       bodySelector: ""

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"moscars-webhookingester-publisher/shared"
 	"os"
@@ -35,19 +36,35 @@ func main() {
 	}
 	defer ec.Close()
 
+	js, _ := ec.Conn.JetStream()
+
+	streamName := "PUBLISH_QUEUE"
+
+	js.AddStream(&nats.StreamConfig{
+		Name:     streamName,
+		Subjects: []string{"publish-queue"},
+	})
+
 	// Use a WaitGroup to wait for 10 messages to arrive
 	wg := sync.WaitGroup{}
 	wg.Add(10)
 
-	if _, err := ec.QueueSubscribe("publish-queue", "publishers", func(m *shared.IncommingWebhook) {
-		log.Println("Message received:", m)
+	if _, err := js.QueueSubscribe("publish-queue", "publishers", func(msg *nats.Msg) {
 
-		Route(routings, m)
+		var incommingWebHook *shared.IncommingWebhook
+		err := json.Unmarshal(msg.Data, &incommingWebHook)
 
-		log.Println("Message routed")
+		if err != nil {
+			log.Println(err)
+		} else {
+			log.Println("Message received:", incommingWebHook)
+			Route(routings, incommingWebHook)
+			log.Println("Message routed")
+		}
 
+		msg.Ack()
 		wg.Done()
-	}); err != nil {
+	}, nats.AckExplicit()); err != nil {
 		log.Println(err)
 	}
 

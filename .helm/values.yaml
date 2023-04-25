@@ -7,3 +7,18 @@ publisher:
   replicas: 1
 nats:
   url: moscars-webhookingester-nats.default.svc.cluster.local:4222
+  cluster:
+    enabled: true
+    replicas: 2
+  nats:
+    jetstream:
+      enabled: true
+
+      memStorage:
+        enabled: true
+        size: 1Gi
+
+      fileStorage:
+        enabled: true
+        size: 1Gi
+        storageDirectory: /data/
