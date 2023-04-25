@@ -4,36 +4,20 @@ import (
 	"encoding/json"
 	"log"
 	"moscars-webhookingester-publisher/shared"
-	"os"
 	"time"
 
 	"github.com/nats-io/nats.go"
 )
 
 func main() {
-	natsUrl, natsUrlFound := os.LookupEnv("WEBHOOKINGESTER_NATSURL")
-
-	if !natsUrlFound {
-		log.Println("No NATS url configured using default one")
-		natsUrl = nats.DefaultURL
-	}
 
 	var config Config
 	config.GetConf()
 
 	routings := CreateRoutings(config)
 
-	nc, err := nats.Connect(natsUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
+	ec := shared.GetNatsConnection()
 
-	defer nc.Drain()
-
-	ec, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
-	if err != nil {
-		log.Fatal(err)
-	}
 	defer ec.Close()
 
 	js, _ := ec.Conn.JetStream()
