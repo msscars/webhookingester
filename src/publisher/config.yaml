@@ -1,8 +1,8 @@
 routings:
   - matcher:
       type: "PropertyValue"
-      path: "$.prop"
-      value: "testtoken"
+      path: "$.prop3.pp1"
+      value: "value1"
     publisher:
       type: "nats"
       subject: "test.output"
