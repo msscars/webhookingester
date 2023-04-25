@@ -38,8 +38,12 @@ func main() {
 			log.Println(err)
 		} else {
 			log.Println("Message received:", incommingWebHook)
-			Route(routings, incommingWebHook)
-			log.Println("Message routed")
+			if Route(routings, incommingWebHook) {
+				log.Println("Message routed")
+			} else {
+				log.Println("Message could not be routed")
+			}
+
 		}
 
 		msg.Ack()
