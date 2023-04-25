@@ -27,10 +27,12 @@ func CreateRoutings(config Config) []Routing {
 
 func matcherFactory(m MatcherConfig) matchers.Matcher {
 	switch m.Type {
-	case "ContainsString":
-		return matchers.ContainsStringMatcher{Token: m.Token}
+	case "ContainsPropertyWithValue":
+		return matchers.ContainsPropertyWithValueMatcher{Path: m.Path, Value: m.Value}
 	case "ContainsHeaderKey":
 		return matchers.ContainsHeaderKeyMatcher{Key: m.Key}
+	case "ContainsHeaderKeyWithValue":
+		return matchers.ContainsHeaderKeyWithValueMatcher{Key: m.Key, Value: m.Value}
 	}
 
 	return nil

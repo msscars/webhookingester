@@ -11,6 +11,8 @@ type MatcherConfig struct {
 	Type  string `yaml:"type"`
 	Token string `yaml:"token"`
 	Key   string `yaml:"key"`
+	Value string `yaml:"value"`
+	Path  string `yaml:"path"`
 }
 
 type PublisherConfig struct {

@@ -25,7 +25,7 @@ func GetNatsConnection() *nats.EncodedConn {
 		lock.Lock()
 		defer lock.Unlock()
 		if singleInstance == nil {
-			log.Println("Creating single instance now.")
+			log.Println("Creating nats connection")
 
 			natsUrl, natsUrlFound := os.LookupEnv("WEBHOOKINGESTER_NATSURL")
 
@@ -46,10 +46,10 @@ func GetNatsConnection() *nats.EncodedConn {
 
 			singleInstance = ec
 		} else {
-			log.Println("Single instance already created.")
+			log.Println("Using existing nats connection")
 		}
 	} else {
-		log.Println("Single instance already created.")
+		log.Println("Using existing nats connection")
 	}
 
 	return singleInstance

@@ -15,10 +15,8 @@ type Routing struct {
 func Route(routings []Routing, request *shared.IncommingWebhook) bool {
 	var match bool = false
 
-	reqString := "test" // TODO: fix
-
 	for i, h := range routings {
-		if h.Matcher.Match(request, reqString) {
+		if h.Matcher.Match(request) {
 			match = true
 			log.Println("matcher found at position", i)
 
