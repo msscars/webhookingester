@@ -1,6 +1,6 @@
 routings:
   - matcher:
-      type: "PropertyValue"
+      type: "propertyvalue"
       path: "$.prop3.pp1"
       value: "value1"
     publisher:

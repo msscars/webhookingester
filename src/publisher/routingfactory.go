@@ -28,6 +28,8 @@ func CreateRoutings(config Config) []Routing {
 
 func matcherFactory(m MatcherConfig) matchers.Matcher {
 	switch strings.ToLower(m.Type) {
+	case "property":
+		return matchers.PropertyMatcher{Path: m.Path}
 	case "propertyvalue":
 		return matchers.PropertyValueMatcher{Path: m.Path, Value: m.Value}
 	case "headerkey":
