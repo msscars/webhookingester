@@ -4,11 +4,11 @@ import (
 	"moscars-webhookingester-publisher/shared"
 )
 
-type ContainsHeaderKeyMatcher struct {
+type HeaderKeyMatcher struct {
 	Key string
 }
 
-func (h ContainsHeaderKeyMatcher) Match(request *shared.IncommingWebhook) bool {
+func (h HeaderKeyMatcher) Match(request *shared.IncommingWebhook) bool {
 	_, ok := request.Headers[h.Key]
 	if ok {
 		return true

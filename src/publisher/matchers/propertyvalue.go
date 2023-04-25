@@ -6,12 +6,12 @@ import (
 	"github.com/PaesslerAG/jsonpath"
 )
 
-type ContainsPropertyWithValueMatcher struct {
+type PropertyValueMatcher struct {
 	Path  string
 	Value string
 }
 
-func (h ContainsPropertyWithValueMatcher) Match(request *shared.IncommingWebhook) bool {
+func (h PropertyValueMatcher) Match(request *shared.IncommingWebhook) bool {
 	token, err := jsonpath.Get(h.Path, request.Body)
 	if err != nil {
 		return false

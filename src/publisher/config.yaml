@@ -1,15 +1,8 @@
 routings:
   - matcher:
-      type: "ContainsString"
-      token: "testtoken"
-    publisher:
-      type: "http"
-      uri: "https://moscars-webhookingester-test2.free.beeceptor.com"
-      bodySelector: "$.prop2"
-
-  - matcher:
-      type: "ContainsHeaderKey"
-      key: "X-Test"
+      type: "PropertyValue"
+      path: "$.prop"
+      value: "testtoken"
     publisher:
       type: "nats"
       subject: "test.output"

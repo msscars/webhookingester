@@ -4,6 +4,7 @@ import (
 	"log"
 	"moscars-webhookingester-publisher/matchers"
 	"moscars-webhookingester-publisher/publisher"
+	"strings"
 )
 
 func CreateRoutings(config Config) []Routing {
@@ -26,13 +27,13 @@ func CreateRoutings(config Config) []Routing {
 }
 
 func matcherFactory(m MatcherConfig) matchers.Matcher {
-	switch m.Type {
-	case "ContainsPropertyWithValue":
-		return matchers.ContainsPropertyWithValueMatcher{Path: m.Path, Value: m.Value}
-	case "ContainsHeaderKey":
-		return matchers.ContainsHeaderKeyMatcher{Key: m.Key}
-	case "ContainsHeaderKeyWithValue":
-		return matchers.ContainsHeaderKeyWithValueMatcher{Key: m.Key, Value: m.Value}
+	switch strings.ToLower(m.Type) {
+	case "propertyvalue":
+		return matchers.PropertyValueMatcher{Path: m.Path, Value: m.Value}
+	case "headerkey":
+		return matchers.HeaderKeyMatcher{Key: m.Key}
+	case "headervalue":
+		return matchers.HeaderValueMatcher{Key: m.Key, Value: m.Value}
 	}
 
 	return nil
