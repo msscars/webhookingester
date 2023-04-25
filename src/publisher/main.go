@@ -5,7 +5,7 @@ import (
 	"log"
 	"moscars-webhookingester-publisher/shared"
 	"os"
-	"sync"
+	"time"
 
 	"github.com/nats-io/nats.go"
 )
@@ -28,7 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	defer nc.Close()
+	defer nc.Drain()
 
 	ec, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
 	if err != nil {
@@ -45,10 +45,6 @@ func main() {
 		Subjects: []string{"publish-queue"},
 	})
 
-	// Use a WaitGroup to wait for 10 messages to arrive
-	wg := sync.WaitGroup{}
-	wg.Add(10)
-
 	if _, err := js.QueueSubscribe("publish-queue", "publishers", func(msg *nats.Msg) {
 
 		var incommingWebHook *shared.IncommingWebhook
@@ -63,13 +59,12 @@ func main() {
 		}
 
 		msg.Ack()
-		wg.Done()
 	}, nats.AckExplicit()); err != nil {
 		log.Println(err)
 	}
 
-	// Wait for messages to come in
-	log.Println("Waiting for messages to come in")
-	wg.Wait()
-	log.Println("WaitGroup exceeded")
+	for {
+		log.Println("still alive")
+		time.Sleep(10 * time.Second)
+	}
 }
