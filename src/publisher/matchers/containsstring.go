@@ -1,7 +1,7 @@
 package matchers
 
 import (
-	"net/http"
+	"moscars-webhookingester-publisher/shared"
 	"strings"
 )
 
@@ -9,7 +9,7 @@ type ContainsStringMatcher struct {
 	Token string
 }
 
-func (h ContainsStringMatcher) Match(request *http.Request, requestString string) bool {
+func (h ContainsStringMatcher) Match(request *shared.IncommingWebhook, requestString string) bool {
 	if strings.Contains(requestString, h.Token) {
 		return true
 	}

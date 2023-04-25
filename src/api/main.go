@@ -1,7 +1,8 @@
 package main
 
 import (
-	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -11,13 +12,29 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-func captureRequestData(req *http.Request) ([]byte, error) {
-	var b = &bytes.Buffer{} // holds serialized representation
-	var err error
-	if err = req.Write(b); err != nil { // serialize request to HTTP/1.1 wire format
-		return nil, err
+type IncommingWebhook struct {
+	Headers map[string]string `json:"headers"`
+	Body    interface{}       `json:"body"`
+}
+
+func captureRequestData(req *http.Request) (IncommingWebhook, error) {
+	v := interface{}(nil)
+	webhookRequest := IncommingWebhook{Headers: map[string]string{}}
+
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Printf("Error reading body: %v", err)
 	}
-	return b.Bytes(), nil
+
+	for name, values := range req.Header {
+		for _, value := range values {
+			webhookRequest.Headers[name] = value
+		}
+	}
+
+	json.Unmarshal(body, &v)
+
+	return webhookRequest, nil
 }
 
 func main() {
@@ -39,6 +56,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	ec, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer ec.Close()
 
 	r := gin.Default()
 
@@ -63,7 +86,9 @@ func main() {
 			return
 		}
 
-		nc.Publish("publish-queue", b)
+		if err := ec.Publish("publish-queue", &b); err != nil {
+			log.Println(err)
+		}
 
 		c.Status(202)
 	})

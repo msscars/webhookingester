@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"moscars-webhookingester-publisher/matchers"
 	"moscars-webhookingester-publisher/publisher"
-	"net/http"
-	"net/http/httputil"
+	"moscars-webhookingester-publisher/shared"
 )
 
 type Routing struct {
@@ -14,23 +12,18 @@ type Routing struct {
 	Publisher publisher.Publisher `yaml:"publisher"`
 }
 
-func Route(routings []Routing, request *http.Request) bool {
+func Route(routings []Routing, request *shared.IncommingWebhook) bool {
 	var match bool = false
 
-	requestDump, err := httputil.DumpRequest(request, true)
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		reqString := string(requestDump)
+	reqString := "test" // TODO: fix
 
-		for i, h := range routings {
-			if h.Matcher.Match(request, reqString) {
-				match = true
-				log.Println("matcher found at position", i)
+	for i, h := range routings {
+		if h.Matcher.Match(request, reqString) {
+			match = true
+			log.Println("matcher found at position", i)
 
-				if h.Publisher.Publish(request) {
-					log.Println("publisher at position", i, "succeeded")
-				}
+			if h.Publisher.Publish(request) {
+				log.Println("publisher at position", i, "succeeded")
 			}
 		}
 	}

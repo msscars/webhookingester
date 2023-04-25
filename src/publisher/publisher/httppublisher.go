@@ -2,11 +2,9 @@ package publisher
 
 import (
 	"bytes"
-	"encoding/json"
+	"encoding/binary"
 	"fmt"
-	"io"
-	"io/ioutil"
-	"log"
+	"moscars-webhookingester-publisher/shared"
 	"net/http"
 
 	"github.com/PaesslerAG/jsonpath"
@@ -17,29 +15,21 @@ type HttpPublisher struct {
 	BodySelector string
 }
 
-func (p HttpPublisher) Publish(request *http.Request) bool {
-	v := interface{}(nil)
-	body, err := ioutil.ReadAll(request.Body)
-	if err != nil {
-		log.Printf("Error reading body: %v", err)
-		return false
-	}
-
-	request.Body = io.NopCloser(bytes.NewBuffer(body))
+func (p HttpPublisher) Publish(request *shared.IncommingWebhook) bool {
+	body := request.Body
 
 	if p.BodySelector != "" {
-		json.Unmarshal(body, &v)
-
-		selectedBody, _ := jsonpath.Get(p.BodySelector, v)
-
-		body, _ = json.Marshal(selectedBody)
+		body, _ = jsonpath.Get(p.BodySelector, body)
 	}
 
-	request, error := http.NewRequest("POST", p.Uri, bytes.NewBuffer(body))
-	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
+	buf := &bytes.Buffer{}
+	binary.Write(buf, binary.BigEndian, body)
+
+	req, error := http.NewRequest("POST", p.Uri, buf)
+	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	client := &http.Client{}
-	response, error := client.Do(request)
+	response, error := client.Do(req)
 	if error != nil {
 		return false
 	}
@@ -47,8 +37,6 @@ func (p HttpPublisher) Publish(request *http.Request) bool {
 
 	fmt.Println("response Status:", response.Status)
 	fmt.Println("response Headers:", response.Header)
-	// body, _ := ioutil.ReadAll(response.Body)
-	// fmt.Println("response Body:", string(body))
 
 	return true
 }

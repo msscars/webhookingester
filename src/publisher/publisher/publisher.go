@@ -1,7 +1,7 @@
 package publisher
 
-import "net/http"
+import "moscars-webhookingester-publisher/shared"
 
 type Publisher interface {
-	Publish(request *http.Request) bool
+	Publish(request *shared.IncommingWebhook) bool
 }

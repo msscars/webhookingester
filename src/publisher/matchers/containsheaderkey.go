@@ -1,15 +1,15 @@
 package matchers
 
 import (
-	"net/http"
+	"moscars-webhookingester-publisher/shared"
 )
 
 type ContainsHeaderKeyMatcher struct {
 	Key string
 }
 
-func (h ContainsHeaderKeyMatcher) Match(request *http.Request, requestString string) bool {
-	_, ok := request.Header[h.Key]
+func (h ContainsHeaderKeyMatcher) Match(request *shared.IncommingWebhook, requestString string) bool {
+	_, ok := request.Headers[h.Key]
 	if ok {
 		return true
 	}
