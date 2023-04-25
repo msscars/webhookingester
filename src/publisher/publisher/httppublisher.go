@@ -16,6 +16,8 @@ type HttpPublisher struct {
 }
 
 func (p HttpPublisher) Publish(request *shared.IncommingWebhook) bool {
+	log.Println("HttpPublisher received:", request)
+
 	body := request.Body
 
 	if p.BodySelector != "" {

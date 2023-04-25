@@ -34,6 +34,8 @@ func captureRequestData(req *http.Request) (IncommingWebhook, error) {
 
 	json.Unmarshal(body, &v)
 
+	webhookRequest.Body = v
+
 	return webhookRequest, nil
 }
 

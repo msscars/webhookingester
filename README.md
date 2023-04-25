@@ -5,6 +5,5 @@
 - make changes
 - ensure minikube is running
 - `cd {root}`
-- run `./push.sh` this will build the docker images and load these into minikube
-- `cd .helm`
-- `helm install -f .helm/values.yaml moscars-webhookingester .helm/`
+- run `./deploy.sh` this will build the docker images and load these into minikube
+- tear down by `helm uninstall moscars-webhookingester`

@@ -40,7 +40,7 @@ func main() {
 	wg.Add(10)
 
 	if _, err := ec.QueueSubscribe("publish-queue", "publishers", func(m *shared.IncommingWebhook) {
-		log.Println("Message received")
+		log.Println("Message received:", m)
 
 		Route(routings, m)
 
