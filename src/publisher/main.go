@@ -37,10 +37,14 @@ func main() {
 
 	// Use a WaitGroup to wait for 10 messages to arrive
 	wg := sync.WaitGroup{}
-	wg.Add(1)
+	wg.Add(10)
 
 	if _, err := ec.QueueSubscribe("publish-queue", "publishers", func(m *shared.IncommingWebhook) {
+		log.Println("Message received")
+
 		Route(routings, m)
+
+		log.Println("Message routed")
 
 		wg.Done()
 	}); err != nil {
@@ -48,5 +52,7 @@ func main() {
 	}
 
 	// Wait for messages to come in
+	log.Println("Waiting for messages to come in")
 	wg.Wait()
+	log.Println("WaitGroup exceeded")
 }

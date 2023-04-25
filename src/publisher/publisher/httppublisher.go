@@ -3,7 +3,6 @@ package publisher
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"log"
 	"moscars-webhookingester-publisher/shared"
 	"net/http"
@@ -45,8 +44,8 @@ func (p HttpPublisher) Publish(request *shared.IncommingWebhook) bool {
 	}
 	defer response.Body.Close()
 
-	fmt.Println("response Status:", response.Status)
-	fmt.Println("response Headers:", response.Header)
+	log.Println("response Status:", response.Status)
+	log.Println("response Headers:", response.Header)
 
 	return true
 }
