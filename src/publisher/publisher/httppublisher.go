@@ -2,8 +2,9 @@ package publisher
 
 import (
 	"bytes"
-	"encoding/binary"
+	"encoding/json"
 	"fmt"
+	"log"
 	"moscars-webhookingester-publisher/shared"
 	"net/http"
 
@@ -22,15 +23,24 @@ func (p HttpPublisher) Publish(request *shared.IncommingWebhook) bool {
 		body, _ = jsonpath.Get(p.BodySelector, body)
 	}
 
-	buf := &bytes.Buffer{}
-	binary.Write(buf, binary.BigEndian, body)
+	bodyByte, err := json.Marshal(body)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
 
-	req, error := http.NewRequest("POST", p.Uri, buf)
+	req, err := http.NewRequest("POST", p.Uri, bytes.NewBuffer(bodyByte))
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
 	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	client := &http.Client{}
-	response, error := client.Do(req)
-	if error != nil {
+	response, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
 		return false
 	}
 	defer response.Body.Close()
