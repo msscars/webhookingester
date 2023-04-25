@@ -6,8 +6,6 @@ import (
 	"log"
 	"moscars-webhookingester-publisher/shared"
 	"net/http"
-
-	"github.com/PaesslerAG/jsonpath"
 )
 
 type HttpPublisher struct {
@@ -18,11 +16,7 @@ type HttpPublisher struct {
 func (p HttpPublisher) Publish(request *shared.IncommingWebhook) bool {
 	log.Println("HttpPublisher received:", request)
 
-	body := request.Body
-
-	if p.BodySelector != "" {
-		body, _ = jsonpath.Get(p.BodySelector, body)
-	}
+	body := getBodyPart(request, p.BodySelector)
 
 	bodyByte, err := json.Marshal(body)
 	if err != nil {

@@ -16,6 +16,7 @@ type MatcherConfig struct {
 type PublisherConfig struct {
 	Type         string `yaml:"type"`
 	Uri          string `yaml:"uri"`
+	Subject      string `yaml:"subject"`
 	BodySelector string `yaml:"bodySelector"`
 }
 

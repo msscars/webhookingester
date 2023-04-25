@@ -11,6 +11,6 @@ routings:
       type: "ContainsHeaderKey"
       key: "X-Test"
     publisher:
-      type: "http"
-      uri: "https://moscars-webhookingester-test2.free.beeceptor.com"
-      bodySelector: ""
+      type: "nats"
+      subject: "test.output"
+      bodySelector: "$.prop3"
