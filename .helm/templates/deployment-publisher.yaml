@@ -41,6 +41,8 @@ spec:
             - name: WEBHOOKINGESTER_NATSURL
               value: {{ .Values.webhookingester.natsUrl }}
             {{ end }}
+            - name: WEBHOOKINGESTER_KAFKAURL
+              value: {{ .Values.webhookingester.kafkaUrl }}
           resources:
             requests:
               memory: '50Mi'

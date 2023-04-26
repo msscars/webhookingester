@@ -1,5 +1,6 @@
 webhookingester:
   natsUrl: ""
+  kafkaUrl: "kafka-1682505439.default.svc.cluster.local:9092"
   deployOwnNats: true
   deployOwnReloader: true
   useReloader: true
