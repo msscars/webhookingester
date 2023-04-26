@@ -2,9 +2,11 @@ api:
   image: moscars-webhookingester-api:latest
   replicas: 1
   apikey: "SuperSecureKey"
+
 publisher:
   image: moscars-webhookingester-publisher:latest
   replicas: 3
+
 nats:
   url: moscars-webhookingester-nats.default.svc.cluster.local:4222
   cluster:
@@ -22,5 +24,8 @@ nats:
         enabled: true
         size: 1Gi
         storageDirectory: /data/
+
 reloader:
   watchGlobally: false
+  ignoreSecrets: true
+  namespaceSelector: "default"
