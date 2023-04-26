@@ -33,7 +33,7 @@ type Config struct {
 
 func (c *Config) GetConf() *Config {
 
-	yamlFile, err := ioutil.ReadFile("config.yaml")
+	yamlFile, err := ioutil.ReadFile("../etc/config/routingConfig.yaml")
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}

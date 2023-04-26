@@ -1,0 +1,15 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: publisher-configmap 
+data:
+  routingConfig.yaml: |
+    routings:
+      - matcher:
+          type: "propertyvalue"
+          path: "$.prop3.pp1"
+          value: "value1"
+        publisher:
+          type: "nats"
+          subject: "test.output"
+          bodySelector: "$.prop3"

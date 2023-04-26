@@ -22,3 +22,5 @@ nats:
         enabled: true
         size: 1Gi
         storageDirectory: /data/
+reloader:
+  watchGlobally: false

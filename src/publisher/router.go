@@ -23,6 +23,8 @@ func Route(routings []Routing, request *shared.IncommingWebhook) bool {
 			if h.Publisher.Publish(request) {
 				log.Println("publisher at position", i, "succeeded")
 			}
+		} else {
+			log.Println("no matcher found")
 		}
 	}
 
