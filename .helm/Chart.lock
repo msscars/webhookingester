@@ -1,9 +1,9 @@
 dependencies:
 - name: nats
   repository: https://nats-io.github.io/k8s/helm/charts/
-  version: 0.14.2
+  version: 0.19.3
 - name: reloader
   repository: https://stakater.github.io/stakater-charts
   version: v1.0.22
-digest: sha256:594e062ba6aea9355902afa6a46b20b7b9f97c6d8eaf91cf8fec32446209cc33
-generated: "2023-04-26T10:24:03.0738237+02:00"
+digest: sha256:31486d7179cc2e99de54982d7c8697cceba15e5ee588e993007bc0a1e0b54810
+generated: "2023-04-26T11:43:25.7096548+02:00"
