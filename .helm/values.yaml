@@ -1,12 +1,12 @@
 webhookingester:
-  natsUrl: moscars-webhookingester-nats.default.svc.cluster.local:4222
+  natsUrl: ""
   deployOwnNats: true
   deployOwnReloader: true
   useReloader: true
   api:
     image: moscars-webhookingester-api:latest
     replicas: 1
-    apikey: "SuperSecureKey"
+    apikey: SuperSecureKey
   
   publisher:
     image: moscars-webhookingester-publisher:latest
@@ -32,4 +32,4 @@ nats:
 reloader:
   watchGlobally: false
   ignoreSecrets: true
-  namespaceSelector: "default"
+  namespaceSelector: default

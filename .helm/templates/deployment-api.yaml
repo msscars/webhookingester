@@ -29,8 +29,13 @@ spec:
           env:
             - name: WEBHOOKINGESTER_APIKEY
               value: {{ .Values.webhookingester.api.apikey }}
+            {{ if eq .Values.webhookingester.deployOwnNats true }}
+            - name: WEBHOOKINGESTER_NATSURL
+              value: 'moscars-webhookingester-nats.{{ tpl .Release.Namespace . }}.svc.cluster.local:4222'
+            {{ else }}
             - name: WEBHOOKINGESTER_NATSURL
               value: {{ .Values.webhookingester.natsUrl }}
+            {{ end }}
             
           resources:
             requests:

@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    {{ if .Values.webhookingester.useReloader }}
+    {{ if eq .Values.webhookingester.useReloader true }}
       configmap.reloader.stakater.com/reload: "publisher-configmap"
-    {{ else }}
+    {{ end }}
   name: moscars-webhookingester-publisher
   namespace: {{ .Release.Namespace }}
 spec:
@@ -34,8 +34,13 @@ spec:
             - name: publisher-configmap-volume
               mountPath: /etc/config
           env:
+            {{ if eq .Values.webhookingester.deployOwnNats true }}
+            - name: WEBHOOKINGESTER_NATSURL
+              value: 'moscars-webhookingester-nats.{{ tpl .Release.Namespace . }}.svc.cluster.local:4222'
+            {{ else }}
             - name: WEBHOOKINGESTER_NATSURL
               value: {{ .Values.webhookingester.natsUrl }}
+            {{ end }}
           resources:
             requests:
               memory: '50Mi'
