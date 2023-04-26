@@ -1,14 +1,18 @@
-api:
-  image: moscars-webhookingester-api:latest
-  replicas: 1
-  apikey: "SuperSecureKey"
-
-publisher:
-  image: moscars-webhookingester-publisher:latest
-  replicas: 3
+webhookingester:
+  natsUrl: moscars-webhookingester-nats.default.svc.cluster.local:4222
+  deployOwnNats: true
+  deployOwnReloader: true
+  useReloader: true
+  api:
+    image: moscars-webhookingester-api:latest
+    replicas: 1
+    apikey: "SuperSecureKey"
+  
+  publisher:
+    image: moscars-webhookingester-publisher:latest
+    replicas: 3
 
 nats:
-  url: moscars-webhookingester-nats.default.svc.cluster.local:4222
   cluster:
     enabled: true
     replicas: 2

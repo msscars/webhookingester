@@ -2,11 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    configmap.reloader.stakater.com/reload: "publisher-configmap"
+    {{ if .Values.webhookingester.useReloader }}
+      configmap.reloader.stakater.com/reload: "publisher-configmap"
+    {{ else }}
   name: moscars-webhookingester-publisher
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.publisher.replicas }}
+  replicas: {{ .Values.webhookingester.publisher.replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -26,14 +28,14 @@ spec:
             name: publisher-configmap
       containers:
         - name: moscars-webhookingester-publisher
-          image: {{ .Values.publisher.image }}
+          image: {{ .Values.webhookingester.publisher.image }}
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: publisher-configmap-volume
               mountPath: /etc/config
           env:
             - name: WEBHOOKINGESTER_NATSURL
-              value: {{ .Values.nats.url }}
+              value: {{ .Values.webhookingester.natsUrl }}
           resources:
             requests:
               memory: '50Mi'

@@ -4,8 +4,9 @@ version: 0.0.2
 
 dependencies:
   - name: nats
-    version: 0.14.2
+    version: 0.19.3
     repository: https://nats-io.github.io/k8s/helm/charts/
   - name: reloader
     version: 1.0.22
     repository: https://stakater.github.io/stakater-charts
+    condition: webhookingester.deployOwnReloader

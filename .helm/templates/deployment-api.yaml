@@ -4,7 +4,7 @@ metadata:
   name: moscars-webhookingester-api
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.api.replicas }}
+  replicas: {{ .Values.webhookingester.api.replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: moscars-webhookingester-api
-          image: {{ .Values.api.image }}
+          image: {{ .Values.webhookingester.api.image }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -28,9 +28,9 @@ spec:
               protocol: TCP
           env:
             - name: WEBHOOKINGESTER_APIKEY
-              value: {{ .Values.api.apikey }}
+              value: {{ .Values.webhookingester.api.apikey }}
             - name: WEBHOOKINGESTER_NATSURL
-              value: {{ .Values.nats.url }}
+              value: {{ .Values.webhookingester.natsUrl }}
             
           resources:
             requests:
