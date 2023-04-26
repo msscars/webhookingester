@@ -8,4 +8,4 @@ docker build -t moscars-webhookingester-publisher:latest ./src/publisher
 minikube image load moscars-webhookingester-api:latest
 minikube image load moscars-webhookingester-publisher:latest
 
-helm install -f .helm/values.yaml moscars-webhookingester .helm/
+helm install -f .helm/values.yaml -n ingester --create-namespace moscars-webhookingester .helm/
