@@ -47,6 +47,8 @@ func publisherFactory(m PublisherConfig) publisher.Publisher {
 		return publisher.HttpPublisher{Uri: m.Uri, BodySelector: m.BodySelector}
 	case "nats":
 		return publisher.NatsPublisher{Subject: m.Subject, BodySelector: m.BodySelector}
+	case "kafka":
+		return publisher.KafkaPublisher{Subject: m.Subject, BodySelector: m.BodySelector}
 	}
 
 	return nil

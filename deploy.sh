@@ -1,6 +1,6 @@
 #! /bin/bash
 
-helm uninstall moscars-webhookingester
+helm uninstall -n ingester moscars-webhookingester
 
 docker build -t moscars-webhookingester-api:latest ./src/api
 docker build -t moscars-webhookingester-publisher:latest ./src/publisher
